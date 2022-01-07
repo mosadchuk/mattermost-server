@@ -66,7 +66,9 @@ func resolveConfigFilePath(path string) (string, error) {
 	// Otherwise, search for the config/ folder using the same heuristics as above, and build
 	// an absolute path anchored there and joining the given input path (or plain filename).
 	if configFolder, found := fileutils.FindDir("config"); found {
-		return filepath.Join(configFolder, path), nil
+		if configFile := fileutils.FindFile(filepath.Join(configFolder, path)); configFile != "" {
+			return configFile, nil
+		}
 	}
 
 	// Fail altogether if we can't even find the config/ folder. This should only happen if

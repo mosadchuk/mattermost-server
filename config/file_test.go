@@ -250,13 +250,8 @@ func TestFileStoreNew(t *testing.T) {
 
 		path := "TestFileStoreNew/a/b/c/config.json"
 		fs, err := NewFileStore(path)
-		require.NoError(t, err)
-		configStore, err := NewStoreFromBacking(fs, nil, false)
-		require.NoError(t, err)
-		defer configStore.Close()
-
-		assert.Equal(t, "", *configStore.Get().ServiceSettings.SiteURL)
-		assertFileNotEqualsConfig(t, testConfig, filepath.Join("config", path))
+		require.Error(t, err)
+		require.Nil(t, fs)
 	})
 }
 
@@ -1315,5 +1310,54 @@ func TestFileStoreSetReadOnlyFF(t *testing.T) {
 
 		config = store.Get()
 		require.Equal(t, newCfg.FeatureFlags, config.FeatureFlags)
+	})
+}
+
+func TestResolveConfigPath(t *testing.T) {
+	t.Run("should be able to resolve an absolute path", func(t *testing.T) {
+		cf, err := ioutil.TempFile("", "config-test.json")
+		require.NoError(t, err)
+		info, err := cf.Stat()
+		require.NoError(t, err)
+
+		file := filepath.Join(os.TempDir(), info.Name())
+
+		defer os.Remove(file)
+
+		resolution, err := resolveConfigFilePath(file)
+		require.NoError(t, err)
+		require.Equal(t, file, resolution)
+	})
+
+	t.Run("should be able to resolve relative path", func(t *testing.T) {
+		tempDir, err := ioutil.TempDir("", "resolveconfig")
+		require.NoError(t, err)
+		defer os.RemoveAll(tempDir)
+
+		err = os.Chdir(tempDir)
+		require.NoError(t, err)
+
+		file := "config-test-1.json"
+		_, err = os.Stat(file)
+
+		if os.IsNotExist(err) {
+			defer os.Remove(file)
+
+			f, err2 := os.Create(file)
+			require.NoError(t, err2)
+			defer f.Close()
+		}
+
+		resolution, err := resolveConfigFilePath(file)
+		require.NoError(t, err)
+		require.Contains(t, resolution, filepath.Join(tempDir, file))
+	})
+
+	t.Run("should fail when file does not exist", func(t *testing.T) {
+		file := "config-test-2.json"
+
+		resolution, err := resolveConfigFilePath(file)
+		require.Error(t, err)
+		require.Equal(t, "", resolution)
 	})
 }
