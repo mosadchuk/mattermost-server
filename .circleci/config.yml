@@ -647,18 +647,18 @@ workflows:
       - check-mattermost-vet:
           requires:
             - setup
-      - sentry:
-          context: matterbuild-sentry
-          requires:
-            - check-app-layers
-            - check-store-layers
-            - check-mocks
-            - check-migrations
-            - check-email-templates
-            - check-gen-serialized
-            - check-mattermost-vet
-            - check-golangci-lint
-            - build-api-spec
+      # - sentry:
+      #     context: matterbuild-sentry
+      #     requires:
+      #       - check-app-layers
+      #       - check-store-layers
+      #       - check-mocks
+      #       - check-migrations
+      #       - check-email-templates
+      #       - check-gen-serialized
+      #       - check-mattermost-vet
+      #       - check-golangci-lint
+      #       - build-api-spec
       - build:
           requires:
             - check-app-layers
@@ -673,7 +673,7 @@ workflows:
           name: test-mysql
           dbdriver: mysql
           dbsource: mmuser:mostest@tcp(mysql:3306)/mattermost_test?charset=utf8mb4,utf8&multiStatements=true
-          racemode: "-race"
+          racemode: ""
           requires:
             - check-app-layers
             - check-store-layers
@@ -685,7 +685,7 @@ workflows:
           name: test-postgres
           dbdriver: postgres
           dbsource: postgres://mmuser:mostest@postgres:5432/mattermost_test?sslmode=disable&connect_timeout=10
-          racemode: "-race"
+          racemode: ""
           requires:
             - check-app-layers
             - check-store-layers
