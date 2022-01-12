@@ -262,6 +262,15 @@ jobs:
           paths:
             - mattermost-api-reference
 
+  run:
+    name: generate allure report
+      command: |
+        sudo npm install -g allure-commandline
+        echo BRANCH=development >> allure-results/environment.properties
+        echo COMMIT=$CI_PULL_REQUEST/commits/$CIRCLE_SHA1 >> allure-results/environment.properties
+        allure generate --clean
+      when: always
+
   build:
     docker:
       - image: mattermost/mattermost-build-server:20210810_golang-1.16.7
@@ -334,7 +343,7 @@ jobs:
               -w /mattermost/mattermost-server \
               mattermost/mattermost-build-server:20210810_golang-1.16.7 \
               # bash -c "ulimit -n 8096; make test-server<< parameters.racemode >> BUILD_NUMBER=$CIRCLE_BRANCH-$CIRCLE_PREVIOUS_BUILD_NUM TESTFLAGS= TESTFLAGSEE=" \
-              bash -c "ulimit -n 8096; make test-server-quick BUILD_NUMBER=$CIRCLE_BRANCH-$CIRCLE_PREVIOUS_BUILD_NUM TESTFLAGS=api4 TESTFLAGSEE=" \
+              bash -c "ulimit -n 8096; make test-server BUILD_NUMBER=$CIRCLE_BRANCH-$CIRCLE_PREVIOUS_BUILD_NUM TESTFLAGS=api4/bot TESTFLAGSEE=" \
               bash -c scripts/diff-email-templates.sh
           no_output_timeout: 2h
       - run:
@@ -360,6 +369,8 @@ jobs:
           path: ~/mattermost/mattermost-server/test-results/
       - store_artifacts:
           path: ~/mattermost/mattermost-server/test-results/
+      - store_artifacts:
+          path: ~/mattermost/mattermost-server/allure-report
 
   test-schema:
     executor:
