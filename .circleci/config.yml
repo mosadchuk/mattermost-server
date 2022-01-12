@@ -360,6 +360,7 @@ jobs:
       - run:
           name: generate allure report
           command: |
+            sudo npm install -g npm@latest
             sudo npm install -g allure-commandline
             echo BRANCH=development >> allure-results/environment.properties
             echo COMMIT=$CI_PULL_REQUEST/commits/$CIRCLE_SHA1 >> allure-results/environment.properties
@@ -537,9 +538,9 @@ workflows:
       # - check-store-layers:
       #     requires:
       #       - setup
-      - check-mocks:
-          requires:
-            - setup
+      # - check-mocks:
+      #     requires:
+      #       - setup
       # - check-migrations:
       #     requires:
       #       - setup
