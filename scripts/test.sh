@@ -21,7 +21,7 @@ find . -name 'cprofile*.out' -exec sh -c 'rm "{}"' \;
 find . -type d -name data -not -path './vendor/*' -not -path './data' | xargs rm -rf
 
 #$GO test $GOFLAGS -run=$TESTS $TESTFLAGS -v -timeout=$TIMEOUT -covermode=$COVERMODE -coverpkg=$PACKAGES_COMMA -exec $DIR/test-xprog.sh $PACKAGES 2>&1 > >( tee output )
-$GO test $GOFLAGS -run=$TESTS $TESTFLAGS -v -timeout=$TIMEOUT -covermode=$COVERMODE -coverpkg=$PACKAGES_COMMA -exec $DIR/test-xprog.sh "github.com/mattermost/mattermost-server/v6/api4" 2>&1 > >( tee output )
+$GO test $GOFLAGS -run=$TESTS $TESTFLAGS -v -timeout=$TIMEOUT -covermode=$COVERMODE -coverpkg=$PACKAGES_COMMA -exec $DIR/test-xprog.sh "github.com/mattermost/mattermost-server/v5/mlog github.com/mattermost/mattermost-server/v5/migrations github.com/mattermost/mattermost-server/v5/services/mfa" 2>&1 > >( tee output )
 
 EXIT_STATUS=$?
 
