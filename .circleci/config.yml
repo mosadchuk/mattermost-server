@@ -336,7 +336,7 @@ jobs:
               -w /mattermost/mattermost-server \
               mattermost/mattermost-build-server:20210810_golang-1.16.7 \
               # bash -c "ulimit -n 8096; make test-server<< parameters.racemode >> BUILD_NUMBER=$CIRCLE_BRANCH-$CIRCLE_PREVIOUS_BUILD_NUM TESTFLAGS= TESTFLAGSEE=" \
-              bash -c "ulimit -n 8096; make test-server BUILD_NUMBER=$CIRCLE_BRANCH-$CIRCLE_PREVIOUS_BUILD_NUM TESTFLAGS=api4/bot TESTFLAGSEE=" \
+              bash -c "ulimit -n 8096; make test-server BUILD_NUMBER=$CIRCLE_BRANCH-$CIRCLE_PREVIOUS_BUILD_NUM TESTS=Bot TESTFLAGS= TESTFLAGSEE=" \
               bash -c scripts/diff-email-templates.sh
           no_output_timeout: 2h
       - run:
