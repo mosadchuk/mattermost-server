@@ -334,7 +334,7 @@ jobs:
               -w /mattermost/mattermost-server \
               mattermost/mattermost-build-server:20210810_golang-1.16.7 \
               # bash -c "ulimit -n 8096; make test-server<< parameters.racemode >> BUILD_NUMBER=$CIRCLE_BRANCH-$CIRCLE_PREVIOUS_BUILD_NUM TESTFLAGS= TESTFLAGSEE=" \
-              bash -c "ulimit -n 8096; make test-server-quick BUILD_NUMBER=$CIRCLE_BRANCH-$CIRCLE_PREVIOUS_BUILD_NUM TESTFLAGS= TESTFLAGSEE=" \
+              bash -c "ulimit -n 8096; make test-server-quick BUILD_NUMBER=$CIRCLE_BRANCH-$CIRCLE_PREVIOUS_BUILD_NUM TESTFLAGS=api4 TESTFLAGSEE=" \
               bash -c scripts/diff-email-templates.sh
           no_output_timeout: 2h
       - run:
@@ -514,12 +514,12 @@ workflows:
       # - check-i18n:
       #     requires:
       #       - setup
-      - check-golangci-lint:
-          filters:
-            branches:
-              ignore:
-                - master
-                - /^release-.*/
+      # - check-golangci-lint:
+      #     filters:
+      #       branches:
+      #         ignore:
+      #           - master
+      #           - /^release-.*/
       # - check-app-layers:
       #     requires:
       #       - setup
@@ -538,23 +538,23 @@ workflows:
       # - check-gen-serialized:
       #     requires:
       #       - setup
-      - check-mattermost-vet:
-          requires:
-            - setup
+      # - check-mattermost-vet:
+      #     requires:
+      #       - setup
       # - build-api-spec:
       #     requires:
       #       - setup
-      - build:
-          requires:
-            # - check-app-layers
-            # - check-store-layers
-            - check-mocks
-            # - check-migrations
-            # - check-email-templates
-            # - check-gen-serialized
-            - check-mattermost-vet
-            - check-golangci-lint
-            # - build-api-spec
+      # - build:
+      #     requires:
+      #       # - check-app-layers
+      #       # - check-store-layers
+      #       - check-mocks
+      #       # - check-migrations
+      #       # - check-email-templates
+      #       # - check-gen-serialized
+      #       - check-mattermost-vet
+      #       - check-golangci-lint
+      #       # - build-api-spec
       # - upload-s3-sha:
       #     context: mattermost-ci-pr-builds-s3
       #     requires:
@@ -591,11 +591,11 @@ workflows:
             # - check-migrations
             # - check-email-templates
             # - check-gen-serialized
-      - test-schema:
-          requires:
-            # - check-app-layers
-            # - check-store-layers
-            - check-mocks
+      # - test-schema:
+      #     requires:
+      #       # - check-app-layers
+      #       # - check-store-layers
+      #       - check-mocks
             # - check-migrations
             # - check-email-templates
             # - check-gen-serialized
