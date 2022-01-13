@@ -360,12 +360,13 @@ jobs:
             cp report.xml test-results
       - run:
           name: generate allure report
+          when: always
           command: |
+            cd mattermost-server
             npm install -g allure-commandline
             echo BRANCH=development >> ./test-results/environment.properties
             echo COMMIT=$CI_PULL_REQUEST/commits/$CIRCLE_SHA1 >> ./test-results/environment.properties
             allure generate --clean ./test-results
-          when: always
       - store_test_results:
           path: ~/mattermost/mattermost-server/test-results/
       - store_artifacts:
