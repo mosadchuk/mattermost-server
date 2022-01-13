@@ -362,9 +362,10 @@ jobs:
       - run:
           name: generate allure report
           command: |
-            echo BRANCH=development >> allure-results/environment.properties
-            echo COMMIT=$CI_PULL_REQUEST/commits/$CIRCLE_SHA1 >> allure-results/environment.properties
-            allure generate --clean
+            npm install -g allure-commandline
+            echo BRANCH=development >> test-results/environment.properties
+            echo COMMIT=$CI_PULL_REQUEST/commits/$CIRCLE_SHA1 >> test-results/environment.properties
+            allure generate --clean ./test-results
           when: always
       - store_test_results:
           path: ~/mattermost/mattermost-server/test-results/
