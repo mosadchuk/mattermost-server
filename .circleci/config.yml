@@ -4,7 +4,7 @@ orbs:
   aws-s3: circleci/aws-s3@2.0.0
   owasp: entur/owasp@0.0.10
   allure: ayte/allure@0.1.3
-  artifacts: eddiewebb/artifacts@volatile
+  artifacts: eddiewebb/artifacts@0.1.53
 
 executors:
   ubuntu:
