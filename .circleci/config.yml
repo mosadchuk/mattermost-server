@@ -370,7 +370,7 @@ jobs:
             echo BRANCH=development >> test-results/environment.properties
             echo COMMIT=$CI_PULL_REQUEST/commits/$CIRCLE_SHA1 >> test-results/environment.properties
             allure generate --clean ./test-results
-      - artifacts/summarize:
+      - artifacts/with_summary:
           parent_folder: reports
           file_pattern: "*.html"
       - store_test_results:
