@@ -4,6 +4,7 @@ orbs:
   aws-s3: circleci/aws-s3@2.0.0
   owasp: entur/owasp@0.0.10
   allure: ayte/allure@0.1.3
+  artifacts: eddiewebb/artifacts@volatile
 
 executors:
   ubuntu:
@@ -369,17 +370,17 @@ jobs:
             echo BRANCH=development >> test-results/environment.properties
             echo COMMIT=$CI_PULL_REQUEST/commits/$CIRCLE_SHA1 >> test-results/environment.properties
             allure generate --clean ./test-results
+      - artifacts/summarize:
+      	  parent_folder: reports
+      	  file_pattern: "*.html"
       - store_test_results:
           path: ~/mattermost/mattermost-server/test-results/
-          prefix: tests-results
       - store_artifacts:
           path: ~/mattermost/mattermost-server/test-results/
-          destination: junit-test-results
-          prefix: tests-results
+          destination: junit/test-results
       - store_artifacts:
           path: ~/mattermost/mattermost-server/allure-report
           destination: allure-report
-          prefix: tests-results
 
   test-schema:
     executor:
