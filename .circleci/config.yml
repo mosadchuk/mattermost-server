@@ -352,6 +352,8 @@ jobs:
             tar -czvf logs/docker_logs.tar.gz logs/docker-compose_logs logs/docker_ps logs/docker_stats
       - store_artifacts:
           path: ~/mattermost/mattermost-server/build/logs
+          destination: docker-logs
+          prefix: logs
       - run:
           when: always
           command: |
@@ -364,15 +366,20 @@ jobs:
           command: |
             cd mattermost-server
             npm install -g allure-commandline
-            echo BRANCH=development >> ./test-results/environment.properties
-            echo COMMIT=$CI_PULL_REQUEST/commits/$CIRCLE_SHA1 >> ./test-results/environment.properties
+            echo BRANCH=development >> test-results/environment.properties
+            echo COMMIT=$CI_PULL_REQUEST/commits/$CIRCLE_SHA1 >> test-results/environment.properties
             allure generate --clean ./test-results
       - store_test_results:
           path: ~/mattermost/mattermost-server/test-results/
+          prefix: tests-results
       - store_artifacts:
           path: ~/mattermost/mattermost-server/test-results/
+          destination: junit-test-results
+          prefix: tests-results
       - store_artifacts:
           path: ~/mattermost/mattermost-server/allure-report
+          destination: allure-report
+          prefix: tests-results
 
   test-schema:
     executor:
