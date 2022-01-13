@@ -371,7 +371,7 @@ jobs:
             echo COMMIT=$CI_PULL_REQUEST/commits/$CIRCLE_SHA1 >> test-results/environment.properties
             allure generate --clean ./test-results
       - artifacts/with_summary:
-          parent_folder: mattermost-server/reports
+          parent_folder: mattermost-server/allure-report
           file_pattern: "*.html"
       - store_test_results:
           path: ~/mattermost/mattermost-server/test-results/
