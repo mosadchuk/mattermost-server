@@ -377,7 +377,7 @@ jobs:
           path: ~/mattermost/mattermost-server/test-results/
       - store_artifacts:
           path: ~/mattermost/mattermost-server/test-results/
-          destination: junit/test-results
+          destination: junit-test-results
       - store_artifacts:
           path: ~/mattermost/mattermost-server/allure-report
           destination: allure-report
