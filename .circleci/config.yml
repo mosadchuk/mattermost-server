@@ -365,7 +365,6 @@ jobs:
             cd mattermost-server
             npm install -g allure-commandline
             echo BRANCH=$CIRCLE_BRANCH >> test-results/environment.properties
-            echo BUILD_NUM=$CIRCLE_BUILD_NUM >> test-results/environment.properties
             echo BUILD_URL=$CIRCLE_BUILD_URL >> test-results/environment.properties
             allure generate --clean ./test-results
       - store_test_results:
