@@ -26,6 +26,8 @@ $GO test $GOFLAGS -run=$TESTS $TESTFLAGS -v -timeout=$TIMEOUT -covermode=$COVERM
 EXIT_STATUS=$?
 
 cat output | $GOBIN/go-junit-report > report.xml
+cat output | $GOBIN/go-test-report 
+cat output > output.txt
 rm output
 find . -name 'cprofile*.out' -exec sh -c 'tail -n +2 "{}" >> cover.out ; rm "{}"' \;
 rm -f config/*.crt

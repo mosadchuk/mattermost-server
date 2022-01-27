@@ -351,6 +351,9 @@ do-cover-file: ## Creates the test coverage report file.
 go-junit-report:
 	$(GO) get -modfile=go.tools.mod github.com/jstemmer/go-junit-report
 
+go-test-report:
+	$(GO) get -modfile=go.tools.mod github.com/vakenbolt/go-test-report
+
 test-compile: ## Compile tests.
 	@echo COMPILE TESTS
 
