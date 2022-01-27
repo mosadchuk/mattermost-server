@@ -83,7 +83,8 @@ func TestActivate(t *testing.T) {
 	t.Run("fail on invalid token", func(t *testing.T) {
 		err := New(nil).Activate(userMfaSecret, userID, "000000")
 		require.Error(t, err)
-		require.Contains(t, err.Error(), "invalid mfa token")
+		require.Contains(t, err.Error(), "invalid _mfa token") // invalid condition change to below
+		//require.Contains(t, err.Error(), "invalid mfa token")
 	})
 
 	t.Run("fail on store action fail", func(t *testing.T) {
@@ -93,7 +94,8 @@ func TestActivate(t *testing.T) {
 		})
 
 		err := New(&storeMock).Activate(userMfaSecret, userID, fmt.Sprintf("%06d", token))
-		require.Error(t, err)
+		require.NoError(t, err) // invalid condition change to below
+		//require.Error(t, err)
 		require.Contains(t, err.Error(), "unable to store mfa active")
 	})
 

@@ -354,6 +354,9 @@ go-junit-report:
 go-test-report:
 	$(GO) get -modfile=go.tools.mod github.com/vakenbolt/go-test-report
 
+gotestsum:
+	$(GO) get -modfile=go.tools.mod gotest.tools/gotestsum
+
 test-compile: ## Compile tests.
 	@echo COMPILE TESTS
 
@@ -380,7 +383,7 @@ gomodtidy:
 	fi;
 	@rm go.*.orig;
 
-test-server-pre: check-prereqs-enterprise start-docker-check start-docker go-junit-report go-test-report do-cover-file ## Runs tests.
+test-server-pre: check-prereqs-enterprise start-docker-check start-docker go-junit-report go-test-report gotestsum do-cover-file ## Runs tests.
 ifeq ($(BUILD_ENTERPRISE_READY),true)
 	@echo Running all tests
 else
@@ -409,7 +412,7 @@ test-server: test-server-pre
     endif
   endif
 
-test-server-ee: check-prereqs-enterprise start-docker-check start-docker go-junit-report do-cover-file ## Runs EE tests.
+test-server-ee: check-prereqs-enterprise start-docker-check start-docker go-junit-report go-test-report gotestsum do-cover-file ## Runs EE tests.
 	@echo Running only EE tests
 	./scripts/test.sh "$(GO)" "$(GOFLAGS)" "$(EE_PACKAGES)" "$(TESTS)" "$(TESTFLAGS)" "$(GOBIN)" "20m" "count"
 

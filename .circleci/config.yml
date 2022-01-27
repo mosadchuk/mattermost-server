@@ -357,7 +357,7 @@ jobs:
           command: |
             cd mattermost-server
             mkdir -p test-results
-            cp report.xml test-results
+            cp test_results.* test-results
             cp test_report.html test-results
       - run:
           name: generate allure report
@@ -372,8 +372,8 @@ jobs:
           path: ~/mattermost/mattermost-server/test-results/
       - store_artifacts:
           path: ~/mattermost/mattermost-server/test-results/
-#      - store_artifacts:
-#          path: ~/mattermost/mattermost-server/allure-report/
+      - store_artifacts:
+          path: ~/mattermost/mattermost-server/allure-report/
 
   test-schema:
     executor:
