@@ -380,7 +380,7 @@ gomodtidy:
 	fi;
 	@rm go.*.orig;
 
-test-server-pre: check-prereqs-enterprise start-docker-check start-docker go-junit-report do-cover-file ## Runs tests.
+test-server-pre: check-prereqs-enterprise start-docker-check start-docker go-junit-report go-test-report do-cover-file ## Runs tests.
 ifeq ($(BUILD_ENTERPRISE_READY),true)
 	@echo Running all tests
 else
